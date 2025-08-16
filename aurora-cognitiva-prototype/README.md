@@ -28,141 +28,76 @@ Este protótipo demonstra a convergência funcional de blockchain, IA e manufatu
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 📁 Estrutura do Projeto
+## 📁 Estrutura do Repositório
+
+Este é um monorepo que contém vários pacotes interligados. A estrutura descrita anteriormente neste README estava desatualizada. A estrutura correta é a seguinte:
 
 ```
-aurora-cognitiva-prototype/
-├── README.md
-├── package.json
-├── .env.example
-├── docker-compose.yml
-│
-├── contracts/                    # Smart Contracts Solidity + Noir
-│   ├── AuroraCognitivaCore.sol
-│   ├── governance/
-│   │   ├── HolographicGovernor.sol
-│   │   └── QuadraticVoting.sol
-│   └── noir-circuits/
-│       ├── supply_chain_verification.nr
-│       ├── ai_optimization_proof.nr
-│       └── manufacturing_integrity.nr
-│
-├── ai-engine/                    # Motor de IA
-│   ├── optimization/
-│   │   ├── energy_optimizer.py
-│   │   ├── manufacturing_optimizer.py
-│   │   └── resource_allocator.py
-│   ├── prediction/
-│   │   ├── demand_predictor.py
-│   │   └── quality_predictor.py
-│   └── learning/
-│       ├── federated_learning.py
-│       └── reinforcement_agent.py
-│
-├── manufacturing/                # Sistema de Manufatura 3D
-│   ├── design_engine/
-│   │   ├── parametric_designer.py
-│   │   └── optimization_engine.py
-│   ├── print_controller/
-│   │   ├── printer_interface.py
-│   │   └── quality_monitor.py
-│   └── iot_sensors/
-│       ├── temperature_monitor.py
-│       └── vibration_analyzer.py
-│
-├── backend/                      # Backend de Integração
-│   ├── src/
-│   │   ├── services/
-│   │   │   ├── aurora_orchestrator.ts
-│   │   │   ├── noir_verification.ts
-│   │   │   ├── ai_integration.ts
-│   │   │   └── manufacturing_api.ts
-│   │   ├── models/
-│   │   │   ├── holographic_proposal.ts
-│   │   │   └── convergence_metrics.ts
-│   │   └── controllers/
-│   │       ├── governance_controller.ts
-│   │       └── verification_controller.ts
-│   ├── package.json
-│   └── tsconfig.json
-│
-├── frontend/                     # Interface Aurora Cognitiva
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── AuroraVisualization.tsx
-│   │   │   ├── ConvergenceMonitor.tsx
-│   │   │   ├── HolographicGovernance.tsx
-│   │   │   └── NoirVerificationPanel.tsx
-│   │   ├── pages/
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── Manufacturing.tsx
-│   │   │   └── Governance.tsx
-│   │   └── hooks/
-│   │       ├── useAuroraState.ts
-│   │       └── useHolographicVoting.ts
-│   ├── package.json
-│   └── next.config.js
-│
-├── data/                         # Dados e Simulações
-│   ├── synthetic_data/
-│   │   ├── transaction_history.json
-│   │   ├── ai_optimization_logs.json
-│   │   └── manufacturing_metrics.json
-│   └── simulations/
-│       ├── convergence_simulation.py
-│       └── emergence_predictor.py
-│
-└── docs/                        # Documentação
-    ├── api/
-    ├── architecture/
-    └── user_guide/
+.
+├── arkhen-framework/            # Framework principal em Python para simulações
+├── aurora-cognitiva-android/    # Aplicativo Android nativo (incompleto/quebrado)
+├── aurora-cognitiva-prototype/  # Contratos (Solidity & Noir) e este README
+├── eudaimonic-dashboard/        # Frontend (Next.js) para visualização
+└── eudaimonic-iot-backend/      # Backend (Node.js/TypeScript) de orquestração
+```
+
+Abaixo estão os detalhes dos principais pacotes funcionais.
+
+### `eudaimonic-iot-backend`
+O backend que orquestra os serviços.
+```
+eudaimonic-iot-backend/
+└── src/
+    ├── index.ts                 # Ponto de entrada do servidor Express
+    ├── services/
+    │   └── blockchainService.ts
+    └── ...
+```
+
+### `eudaimonic-dashboard`
+A interface de usuário para o dashboard.
+```
+eudaimonic-dashboard/
+└── src/
+    ├── app/
+    ├── components/
+    └── services/
 ```
 
 ## 🚀 Quick Start
 
-### Pré-requisitos
+As instruções de início rápido foram atualizadas para refletir a estrutura real do monorepo.
 
-- Node.js 18+
-- Python 3.9+
-- Docker & Docker Compose
-- Foundry (para contratos Solidity)
-- Noir (para provas ZK)
+### Backend (`eudaimonic-iot-backend`)
 
-### Instalação
+O backend agora possui um ponto de entrada funcional e pode ser iniciado.
 
 ```bash
-# 1. Clone e configure
-git clone <repo>
-cd aurora-cognitiva-prototype
-cp .env.example .env
+# A partir da raiz do repositório
+cd eudaimonic-iot-backend
 
-# 2. Inicie infraestrutura
-docker-compose up -d
-
-# 3. Deploy contratos
-cd contracts
-forge build
-forge script script/Deploy.s.sol --broadcast
-
-# 4. Configure IA
-cd ai-engine
-pip install -r requirements.txt
-python setup_models.py
-
-# 5. Inicie backend
-cd backend
+# Instale as dependências
 npm install
+
+# Inicie o servidor em modo de desenvolvimento
 npm run dev
 
-# 6. Inicie frontend
-cd frontend
+# O backend estará rodando em http://localhost:3001
+```
+
+### Frontend (`eudaimonic-dashboard`)
+
+```bash
+# A partir da raiz do repositório
+cd eudaimonic-dashboard
+
+# Instale as dependências
 npm install
+
+# Inicie o servidor de desenvolvimento
 npm run dev
 
-# 7. Acesse a aplicação
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:3001
-# Grafana: http://localhost:3002
+# O frontend estará acessível em http://localhost:3000
 ```
 
 ## 🎮 Demonstrações Interativas
