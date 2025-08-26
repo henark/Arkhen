@@ -1,0 +1,31 @@
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: use-sync-external-store@1.2.0
+npm warn Found: react@19.1.0
+npm warn node_modules/react
+npm warn   react@"^19.0.0" from the root project
+npm warn   15 more (@rainbow-me/rainbowkit, @tanstack/react-query, cuer, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from use-sync-external-store@1.2.0
+npm warn node_modules/valtio/node_modules/use-sync-external-store
+npm warn   use-sync-external-store@"1.2.0" from valtio@1.13.2
+npm warn   node_modules/valtio
+npm warn
+npm warn Conflicting peer dependency: react@18.3.1
+npm warn node_modules/react
+npm warn   peer react@"^16.8.0 || ^17.0.0 || ^18.0.0" from use-sync-external-store@1.2.0
+npm warn   node_modules/valtio/node_modules/use-sync-external-store
+npm warn     use-sync-external-store@"1.2.0" from valtio@1.13.2
+npm warn     node_modules/valtio
+
+up to date, audited 741 packages in 3s
+
+219 packages are looking for funding
+  run `npm fund` for details
+
+1 low severity vulnerability
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.

@@ -3,21 +3,21 @@
 // Autopoiese: Gestão robusta de estados e erros
 // Transparência Estrutural: Operações claras e auditáveis
 
-import { createPublicClient, createWalletClient, custom, formatEther, parseEther, getContract } from 'viem';
-import { mainnet, localhost } from 'viem/chains';
-import { 
-  Member, 
-  Proposal, 
-  SystemStats, 
+import { createPublicClient, createWalletClient, custom, getContract } from 'viem';
+import { localhost } from 'viem/chains';
+import {
+  Member,
+  Proposal,
+  SystemStats,
   VotingCreditsInfo,
   SystemHealth,
-  EnergyGridEvent 
+  EnergyGridEvent
 } from '@/types/energyGrid';
 
 // Declaração para window.ethereum (MetaMask)
 declare global {
   interface Window {
-    ethereum?: any;
+    ethereum?: unknown;
   }
 }
 
@@ -161,21 +161,21 @@ const ENERGY_GRID_ABI = [
 ] as const;
 
 // Configuração do contrato (em produção, vem de variáveis de ambiente)
-const CONTRACT_ADDRESS = (typeof window !== 'undefined' && (window as any).CONTRACT_ADDRESS) || '0x0000000000000000000000000000000000000000' as `0x${string}`;
+const CONTRACT_ADDRESS = (typeof window !== 'undefined' && (window as { [key: string]: unknown }).CONTRACT_ADDRESS as `0x${string}`) || '0x0000000000000000000000000000000000000000' as `0x${string}`;
 const CHAIN = localhost; // ou mainnet para produção
 
 export class EnergyGridService {
-  private publicClient;
-  private walletClient;
-  private contract;
+  private publicClient: ReturnType<typeof createPublicClient> | null;
+  private walletClient: ReturnType<typeof createWalletClient> | null;
+  private contract: ReturnType<typeof getContract> | null;
 
   constructor() {
     // Verificação de ambiente para window.ethereum
-    if (typeof window === 'undefined') {
-      // No ambiente servidor (SSR), criamos clientes mock
-      this.publicClient = null as any;
-      this.walletClient = null as any;
-      this.contract = null as any;
+    if (typeof window === 'undefined' || !window.ethereum) {
+      // No ambiente servidor (SSR) ou sem wallet, não inicializamos
+      this.publicClient = null;
+      this.walletClient = null;
+      this.contract = null;
       return;
     }
 

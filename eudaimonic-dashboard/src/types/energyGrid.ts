@@ -83,7 +83,7 @@ export interface SystemHealth {
 export interface EnergyGridEvent {
   type: 'EnergyProduced' | 'CreditsTransferred' | 'VoteCast' | 'ProposalCreated' | 'MemberRegistered';
   timestamp: Date;
-  data: any;
+  data: Record<string, unknown>;
   impact: 'positive' | 'neutral' | 'warning' | 'critical';
 }
 

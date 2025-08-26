@@ -23,7 +23,7 @@ export default function PersonalActionPanel({ connectionState, onUpdate }: Perso
   const [donationTo, setDonationTo] = useState('');
   const [donationAmount, setDonationAmount] = useState('');
 
-  const handleTransaction = async (txFunction: () => Promise<string>, successMessage: string) => {
+  const handleTransaction = async (txFunction: () => Promise<string>) => {
     try {
       setTxState({ status: 'loading' });
       const txHash = await txFunction();
@@ -48,8 +48,7 @@ export default function PersonalActionPanel({ connectionState, onUpdate }: Perso
 
   const handleRegisterMember = () => {
     handleTransaction(
-      () => energyGridService.registerMember(),
-      'Membro registrado com sucesso!'
+      () => energyGridService.registerMember()
     );
   };
 
@@ -60,8 +59,7 @@ export default function PersonalActionPanel({ connectionState, onUpdate }: Perso
     }
     
     handleTransaction(
-      () => energyGridService.reportEnergyProduction(BigInt(energyAmount)),
-      'Produção de energia reportada com sucesso!'
+      () => energyGridService.reportEnergyProduction(BigInt(energyAmount))
     );
     setEnergyAmount('');
   };
@@ -73,8 +71,7 @@ export default function PersonalActionPanel({ connectionState, onUpdate }: Perso
     }
     
     handleTransaction(
-      () => energyGridService.transferCredits(transferTo, BigInt(transferAmount)),
-      'Créditos transferidos com sucesso!'
+      () => energyGridService.transferCredits(transferTo, BigInt(transferAmount))
     );
     setTransferTo('');
     setTransferAmount('');
@@ -87,8 +84,7 @@ export default function PersonalActionPanel({ connectionState, onUpdate }: Perso
     }
     
     handleTransaction(
-      () => energyGridService.createProposal(proposalDescription),
-      'Proposta criada com sucesso!'
+      () => energyGridService.createProposal(proposalDescription)
     );
     setProposalDescription('');
   };
@@ -100,8 +96,7 @@ export default function PersonalActionPanel({ connectionState, onUpdate }: Perso
     }
     
     handleTransaction(
-      () => energyGridService.voteQuadratic(BigInt(voteProposalId), support, voteIntensity),
-      `Voto ${support ? 'favorável' : 'contrário'} registrado com sucesso!`
+      () => energyGridService.voteQuadratic(BigInt(voteProposalId), support, voteIntensity)
     );
     setVoteProposalId('');
   };
@@ -113,8 +108,7 @@ export default function PersonalActionPanel({ connectionState, onUpdate }: Perso
     }
     
     handleTransaction(
-      () => energyGridService.donateVotingCredits(donationTo, BigInt(donationAmount)),
-      'Créditos de votação doados com sucesso!'
+      () => energyGridService.donateVotingCredits(donationTo, BigInt(donationAmount))
     );
     setDonationTo('');
     setDonationAmount('');
