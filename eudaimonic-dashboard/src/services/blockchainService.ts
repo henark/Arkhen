@@ -208,14 +208,16 @@ export class EnergyGridService {
    * Implementa o princípio da Transparência Estrutural
    */
   async getMemberInfo(address: string): Promise<Member | null> {
+    debugLog('getMemberInfo called for address:', address);
     try {
       const result = await this.contract.read.getMemberInfo([address as `0x${string}`]);
+      debugLog('getMemberInfo result:', result);
       
       // Se não está registrado, retorna null
       if (!result[0]) return null;
 
       // Simula os dados completos de membro (em produção, seria múltiplas chamadas)
-      return {
+      const memberInfo = {
         address,
         isRegistered: result[0],
         energyCredits: result[1],
@@ -225,8 +227,11 @@ export class EnergyGridService {
         votingCredits: BigInt(100), // Requer chamada adicional  
         lastVotingCreditsUpdate: BigInt(Date.now() / 1000)
       };
+      debugLog('getMemberInfo processed info:', memberInfo);
+      return memberInfo;
     } catch (error) {
       console.error('Erro ao obter informações do membro:', error);
+      debugLog('Error in getMemberInfo:', error);
       return null;
     }
   }
@@ -236,17 +241,22 @@ export class EnergyGridService {
    * Base para o Medidor de Resiliência (Autopoiese)
    */
   async getSystemStats(): Promise<SystemStats> {
+    debugLog('getSystemStats called');
     try {
       const result = await this.contract.read.getSystemStats();
+      debugLog('getSystemStats result:', result);
       
-      return {
+      const stats = {
         totalProduced: result[0],
         totalCredits: result[1], 
         totalMembers: result[2],
         currentFeeRate: result[3]
       };
+      debugLog('getSystemStats processed stats:', stats);
+      return stats;
     } catch (error) {
       console.error('Erro ao obter estatísticas do sistema:', error);
+      debugLog('Error in getSystemStats:', error);
       throw new Error('Falha na comunicação com a rede');
     }
   }
@@ -256,10 +266,12 @@ export class EnergyGridService {
    * Componente da Metacognição (Governança)
    */
   async getProposal(proposalId: bigint): Promise<Proposal | null> {
+    debugLog('getProposal called for ID:', proposalId);
     try {
       const result = await this.contract.read.getProposal([proposalId]);
+      debugLog('getProposal result:', result);
       
-      return {
+      const proposal = {
         id: proposalId,
         proposer: result[0],
         description: result[1],
@@ -268,8 +280,11 @@ export class EnergyGridService {
         endTime: result[4],
         executed: result[5]
       };
+      debugLog('getProposal processed proposal:', proposal);
+      return proposal;
     } catch (error) {
       console.error('Erro ao obter proposta:', error);
+      debugLog('Error in getProposal:', error);
       return null;
     }
   }
@@ -279,16 +294,21 @@ export class EnergyGridService {
    * Suporte para Votação Quadrática (Ressonância Semântica)
    */
   async getVotingCreditsInfo(address: string): Promise<VotingCreditsInfo> {
+    debugLog('getVotingCreditsInfo called for address:', address);
     try {
       const result = await this.contract.read.getVotingCreditsInfo([address as `0x${string}`]);
+      debugLog('getVotingCreditsInfo result:', result);
       
-      return {
+      const creditsInfo = {
         currentCredits: result[0],
         maxCredits: result[1],
         monthsUntilNext: result[2]
       };
+      debugLog('getVotingCreditsInfo processed info:', creditsInfo);
+      return creditsInfo;
     } catch (error) {
       console.error('Erro ao obter créditos de votação:', error);
+      debugLog('Error in getVotingCreditsInfo:', error);
       throw new Error('Falha ao consultar créditos de votação');
     }
   }
@@ -298,8 +318,10 @@ export class EnergyGridService {
    * Coração do Dashboard Eudaimónico
    */
   async calculateSystemHealth(): Promise<SystemHealth> {
+    debugLog('calculateSystemHealth called');
     try {
       const stats = await this.getSystemStats();
+      debugLog('calculateSystemHealth stats:', stats);
       
       // Cálculos para Medidor de Resiliência (Autopoiese)
       const activeMembers = Number(stats.totalMembers); // Conversão explícita de bigint para number
@@ -317,7 +339,7 @@ export class EnergyGridService {
       // Indicadores de Ressonância Semântica
       const communityEngagement = Math.min(100, (participationRate + 25));
       
-      return {
+      const health = {
         resilience: {
           activeMembers,
           suspendedMembers,
@@ -342,8 +364,11 @@ export class EnergyGridService {
           collaborationIndex: 65 // Baseado em transferências e doações
         }
       };
+      debugLog('calculateSystemHealth processed health:', health);
+      return health;
     } catch (error) {
       console.error('Erro ao calcular saúde sistémica:', error);
+      debugLog('Error in calculateSystemHealth:', error);
       throw new Error('Falha no cálculo da saúde sistémica');
     }
   }
@@ -357,16 +382,20 @@ export class EnergyGridService {
    * Primeira manifestação da Autopoiese
    */
   async registerMember(): Promise<string> {
+    debugLog('registerMember called');
     try {
       const [account] = await this.walletClient.getAddresses();
+      debugLog('Account for registerMember:', account);
       
       const hash = await this.contract.write.registerMember({
         account
       });
+      debugLog('registerMember transaction hash:', hash);
       
       return hash;
     } catch (error) {
       console.error('Erro ao registrar membro:', error);
+      debugLog('Error in registerMember:', error);
       throw new Error('Falha no registro como membro');
     }
   }
@@ -376,16 +405,20 @@ export class EnergyGridService {
    * Conecta o mundo físico ao digital
    */
   async reportEnergyProduction(amount: bigint): Promise<string> {
+    debugLog('reportEnergyProduction called with amount:', amount);
     try {
       const [account] = await this.walletClient.getAddresses();
+      debugLog('Account for reportEnergyProduction:', account);
       
       const hash = await this.contract.write.reportEnergyProduction([amount], {
         account
       });
+      debugLog('reportEnergyProduction transaction hash:', hash);
       
       return hash;
     } catch (error) {
       console.error('Erro ao reportar produção de energia:', error);
+      debugLog('Error in reportEnergyProduction:', error);
       throw new Error('Falha no reporte de energia');
     }
   }
@@ -395,16 +428,20 @@ export class EnergyGridService {
    * Implementa Simbiose económica
    */
   async transferCredits(to: string, amount: bigint): Promise<string> {
+    debugLog('transferCredits called to:', to, 'amount:', amount);
     try {
       const [account] = await this.walletClient.getAddresses();
+      debugLog('Account for transferCredits:', account);
       
       const hash = await this.contract.write.transferCredits([to as `0x${string}`, amount], {
         account
       });
+      debugLog('transferCredits transaction hash:', hash);
       
       return hash;
     } catch (error) {
       console.error('Erro ao transferir créditos:', error);
+      debugLog('Error in transferCredits:', error);
       throw new Error('Falha na transferência de créditos');
     }
   }
@@ -414,16 +451,20 @@ export class EnergyGridService {
    * Manifestação da Metacognição coletiva
    */
   async createProposal(description: string): Promise<string> {
+    debugLog('createProposal called with description:', description);
     try {
       const [account] = await this.walletClient.getAddresses();
+      debugLog('Account for createProposal:', account);
       
       const hash = await this.contract.write.createProposal([description], {
         account
       });
+      debugLog('createProposal transaction hash:', hash);
       
       return hash;
     } catch (error) {
       console.error('Erro ao criar proposta:', error);
+      debugLog('Error in createProposal:', error);
       throw new Error('Falha na criação da proposta');
     }
   }
@@ -433,16 +474,20 @@ export class EnergyGridService {
    * Ressonância Semântica em ação
    */
   async voteQuadratic(proposalId: bigint, support: boolean, intensity: number): Promise<string> {
+    debugLog('voteQuadratic called for proposalId:', proposalId, 'support:', support, 'intensity:', intensity);
     try {
       const [account] = await this.walletClient.getAddresses();
+      debugLog('Account for voteQuadratic:', account);
       
       const hash = await this.contract.write.voteQuadratic([proposalId, support, BigInt(intensity)], {
         account
       });
+      debugLog('voteQuadratic transaction hash:', hash);
       
       return hash;
     } catch (error) {
       console.error('Erro no voto quadrático:', error);
+      debugLog('Error in voteQuadratic:', error);
       throw new Error('Falha no voto quadrático');
     }
   }
@@ -452,16 +497,20 @@ export class EnergyGridService {
    * Solidariedade cívica (Ressonância Semântica)
    */
   async donateVotingCredits(to: string, amount: bigint): Promise<string> {
+    debugLog('donateVotingCredits called to:', to, 'amount:', amount);
     try {
       const [account] = await this.walletClient.getAddresses();
+      debugLog('Account for donateVotingCredits:', account);
       
       const hash = await this.contract.write.donateVotingCredits([to as `0x${string}`, amount], {
         account
       });
+      debugLog('donateVotingCredits transaction hash:', hash);
       
       return hash;
     } catch (error) {
       console.error('Erro ao doar créditos de votação:', error);
+      debugLog('Error in donateVotingCredits:', error);
       throw new Error('Falha na doação de créditos');
     }
   }
@@ -490,6 +539,13 @@ export class EnergyGridService {
     }, 30000); // Evento a cada 30 segundos
   }
 }
+
+// Helper para logging em modo debug
+const debugLog = (message: string, ...args: any[]) => {
+  if (process.env.NEXT_PUBLIC_DEBUG_MODE === 'true') {
+    console.log(`[DEBUG] ${message}`, ...args);
+  }
+};
 
 // Instância singleton do serviço
 export const energyGridService = new EnergyGridService();
