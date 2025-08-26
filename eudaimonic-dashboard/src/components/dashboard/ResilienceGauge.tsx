@@ -16,7 +16,6 @@ export default function ResilienceGauge({ health }: ResilienceGaugeProps) {
   }
 
   const { activeMembers, suspendedMembers, contractUptime, networkStability } = health;
-  const totalMembers = activeMembers + suspendedMembers;
   const healthPercentage = Math.round(contractUptime);
 
   // Calcula cor baseada na saúde

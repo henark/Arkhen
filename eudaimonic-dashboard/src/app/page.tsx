@@ -51,6 +51,7 @@ export default function EudaimonicDashboard() {
     const intervalId = setInterval(updateSystemHealth, 30000); // A cada 30 segundos
 
     return () => {
+      unsubscribe();
       clearInterval(intervalId);
     };
   }, [connectionState.isConnected]);
